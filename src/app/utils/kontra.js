@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 /*
  * Kontra.js v4.0.1 (Custom Build on 2018-09-01) | MIT
  * Build: https://straker.github.io/kontra/download?files=gameLoop+keyboard+sprite
@@ -620,7 +622,7 @@ kontra = {
         this.context.fillRect(this.x, this.y, this.width, this.height);
       }
     }
-  };
+  }
 
   /**
    * A sprite with a position, velocity, and acceleration.

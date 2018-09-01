@@ -5,8 +5,7 @@
     "sourceType": "module"
   },
   "rules": {
-    "no-undef": 1,
-    "semi": 2
+    "no-undef": 1
   },
   "globals": {
     "kontra": false

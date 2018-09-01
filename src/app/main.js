@@ -1,5 +1,6 @@
-import './utils/kontra'
-kontra.init();
+import './utils/kontra';
+
+kontra.init("game");
 
 let sprite = kontra.sprite({
     x: 100,        // starting x,y position of the sprite
@@ -10,19 +11,19 @@ let sprite = kontra.sprite({
     dx: 2          // move the sprite 2px to the right every frame
   });
   
-  let loop = kontra.gameLoop({  // create the main game loop
-    update: function() {        // update the game state
-      sprite.update();
-  
-      // wrap the sprites position when it reaches
-      // the edge of the screen
-      if (sprite.x > kontra.canvas.width) {
-        sprite.x = -sprite.width;
-      }
-    },
-    render: function() {        // render the game state
-      sprite.render();
+let loop = kontra.gameLoop({  // create the main game loop
+  update: function() {        // update the game state
+    sprite.update();
+
+    // wrap the sprites position when it reaches
+    // the edge of the screen
+    if (sprite.x > kontra.canvas.width) {
+      sprite.x = -sprite.width;
     }
-  });
-  
-  loop.start();    // start the game
+  },
+  render: function() {        // render the game state
+    sprite.render();
+  }
+});
+
+loop.start();    // start the game

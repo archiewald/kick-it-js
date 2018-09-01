@@ -4,7 +4,8 @@
   "scripts": {
     "start": "webpack-dev-server --mode development",
     "build": "webpack --mode production",
-    "postbuild": "node postbuild.js"
+    "postbuild": "node postbuild.js",
+    "lint": "eslint src"
   },
   "devDependencies": {
     "archiver": "^2.1.1",

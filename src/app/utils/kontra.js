@@ -225,7 +225,7 @@ kontra = {
       // smaller than doing `Array.isArray(keys) ? keys : [keys]`
       [].concat(keys).map(function(key) {
         callbacks[key] = callback;
-      })
+      });
     },
 
     /**
@@ -237,7 +237,7 @@ kontra = {
     unbind(keys, undefined) {
       [].concat(keys).map(function(key) {
         callbacks[key] = undefined;
-      })
+      });
     },
 
     /**

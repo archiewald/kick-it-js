@@ -1,4 +1,4 @@
-import './utils/kontra';
+import './utils/kontra'; // initialize kontra as a global object </3
 
 kontra.init("game");
 

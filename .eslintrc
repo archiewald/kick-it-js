@@ -8,6 +8,7 @@
     "no-undef": 1
   },
   "globals": {
-    "kontra": false
+    "kontra": false,
+    "document": false
   }
 }

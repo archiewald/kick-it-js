@@ -1,5 +1,5 @@
 export default class Player {
-  constructor({ startingX, startingY, color, speed }) {
+  constructor({ startingX, startingY, color, speed, keys }) {
     this.sprite = kontra.sprite({
       // TODO make it a point
       x: startingX,
@@ -9,6 +9,22 @@ export default class Player {
       height: 40
     });
     this.speed = speed;
+    this.keys = keys;
+  }
+
+  handleControl() {
+    if (kontra.keys.pressed(this.keys.up)) {
+      this.moveUp();
+    }
+    if (kontra.keys.pressed(this.keys.down)) {
+      this.moveDown();
+    }
+    if (kontra.keys.pressed(this.keys.right)) {
+      this.moveRight();
+    }
+    if (kontra.keys.pressed(this.keys.left)) {
+      this.moveLeft();
+    }
   }
 
   moveUp() {

@@ -1,14 +1,14 @@
 {
-  "extends": "eslint:recommended",
+  "extends": ["eslint:recommended", "prettier"],
   "parserOptions": {
-      "ecmaVersion": 6,
-      "sourceType": "module"
+    "ecmaVersion": 6,
+    "sourceType": "module"
   },
   "rules": {
-      "no-undef": 1,
-      "semi": 2
+    "no-undef": 1,
+    "semi": 2
   },
   "globals": {
     "kontra": false
-    }
+  }
 }

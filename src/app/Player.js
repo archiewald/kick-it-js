@@ -5,8 +5,14 @@ export default class Player {
       x: startingX,
       y: startingY,
       color: color,
-      width: 40,
-      height: 40
+      radius: 20,
+      render: function() {
+        // TODO replace with nice graphic
+        this.context.fillStyle = this.color;
+        this.context.beginPath();
+        this.context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+        this.context.fill();
+      }
     });
     this.speed = speed;
     this.keys = keys;
@@ -46,5 +52,12 @@ export default class Player {
 
   render() {
     this.sprite.render();
+  }
+
+  getPosition() {
+    return {
+      x: this.sprite.x,
+      y: this.sprite.y
+    };
   }
 }

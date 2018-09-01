@@ -3,8 +3,8 @@ import Player from "./Player";
 kontra.init("game");
 
 const player1 = new Player({
-  startingX: 10,
-  startingY: 10,
+  startingX: 40,
+  startingY: 40,
   color: "blue",
   speed: 2,
   keys: {
@@ -16,8 +16,8 @@ const player1 = new Player({
 });
 
 const player2 = new Player({
-  startingX: 750,
-  startingY: 10,
+  startingX: 760,
+  startingY: 40,
   color: "red",
   speed: 2,
   keys: {

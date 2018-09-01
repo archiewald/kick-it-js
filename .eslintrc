@@ -9,6 +9,7 @@
   },
   "globals": {
     "kontra": false,
-    "document": false
+    "document": false,
+    "console": false
   }
 }

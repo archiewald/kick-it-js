@@ -6,7 +6,6 @@ body {
   padding: 0;
 }
 
-/* TODO init in js */
 #game {
   background-color: green;
   width: 100%;

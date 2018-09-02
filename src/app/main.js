@@ -1,6 +1,11 @@
 import Player from "./Player";
+import Board from "./Board";
 
-kontra.init("game");
+const boardId = "game";
+const board = new Board({ width: 800, height: 400, canvasId: "game" });
+
+board.init(boardId);
+kontra.init(boardId); // kontra imported as a global object
 
 const player1 = new Player({
   startingX: 40,
@@ -12,7 +17,8 @@ const player1 = new Player({
     down: "s",
     left: "a",
     right: "d"
-  }
+  },
+  boardSize: board.getSize()
 });
 
 const player2 = new Player({
@@ -25,7 +31,8 @@ const player2 = new Player({
     down: "down",
     left: "left",
     right: "right"
-  }
+  },
+  boardSize: board.getSize()
 });
 
 const loop = kontra.gameLoop({

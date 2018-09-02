@@ -1,10 +1,9 @@
 export default class Player {
-  constructor({ startingX, startingY, color, speed, keys, boardSize }) {
+  constructor({ startingPosition, color, speed, keys, boardSize }) {
     this.radius = 20;
     this.sprite = kontra.sprite({
-      // TODO make it a point
-      x: startingX,
-      y: startingY,
+      x: startingPosition.x,
+      y: startingPosition.y,
       color: color,
       radius: this.radius,
       render: function() {
@@ -20,34 +19,43 @@ export default class Player {
     this.boardSize = boardSize;
   }
 
-  handleControl() {
-    if (kontra.keys.pressed(this.keys.up) && !this.checkBoardCollision("up")) {
-      this.moveUp();
+  handleControl(playerPositions) {
+    if (
+      kontra.keys.pressed(this.keys.up) &&
+      this.checkIfCanMove("up", playerPositions)
+    ) {
+      this.moveUp(this.sprite);
     }
     if (
       kontra.keys.pressed(this.keys.down) &&
-      !this.checkBoardCollision("down")
+      this.checkIfCanMove("down", playerPositions)
     ) {
-      this.moveDown();
+      this.moveDown(this.sprite);
     }
     if (
       kontra.keys.pressed(this.keys.right) &&
-      !this.checkBoardCollision("right")
+      this.checkIfCanMove("right", playerPositions)
     ) {
-      this.moveRight();
+      this.moveRight(this.sprite);
     }
     if (
       kontra.keys.pressed(this.keys.left) &&
-      !this.checkBoardCollision("left")
+      this.checkIfCanMove("left", playerPositions)
     ) {
-      this.moveLeft();
+      this.moveLeft(this.sprite);
     }
   }
 
-  checkBoardCollision(playerDirection) {
+  checkIfCanMove(direction, playerPositions) {
+    return !(
+      this.checkPlayersCollision(direction, playerPositions) ||
+      this.checkBoardCollision(direction)
+    );
+  }
+  // TODO: move some collision handler?
+  checkBoardCollision(direction) {
     const position = this.getPosition();
-
-    switch (playerDirection) {
+    switch (direction) {
       case "up":
         return position.y <= this.radius;
       case "down":
@@ -59,17 +67,52 @@ export default class Player {
     }
   }
 
-  moveUp() {
-    this.sprite.y -= this.speed;
+  checkPlayersCollision(direction, playerPositions) {
+    let nextPosition = this.getPosition();
+
+    switch (direction) {
+      case "up":
+        nextPosition = this.moveUp(nextPosition);
+        break;
+      case "down":
+        nextPosition = this.moveDown(nextPosition);
+        break;
+      case "right":
+        nextPosition = this.moveRight(nextPosition);
+        break;
+      case "left":
+        nextPosition = this.moveLeft(nextPosition);
+        break;
+    }
+
+    return playerPositions.some(position =>
+      this.checkIfCirclesIntersect(position, 20, nextPosition, 20)
+    );
   }
-  moveDown() {
-    this.sprite.y += this.speed;
+
+  checkIfCirclesIntersect(position1, radius1, position2, radius2) {
+    const distance = Math.sqrt(
+      Math.pow(position1.x - position2.x, 2) +
+        Math.pow(position1.y - position2.y, 2)
+    );
+    return distance < radius1 + radius2;
   }
-  moveRight() {
-    this.sprite.x += this.speed;
+
+  moveUp(position) {
+    position.y -= this.speed;
+    return position;
   }
-  moveLeft() {
-    this.sprite.x -= this.speed;
+  moveDown(position) {
+    position.y += this.speed;
+    return position;
+  }
+  moveRight(position) {
+    position.x += this.speed;
+    return position;
+  }
+  moveLeft(position) {
+    position.x -= this.speed;
+    return position;
   }
 
   update() {

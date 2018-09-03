@@ -1,6 +1,6 @@
 export default class Player {
-  constructor({ startingPosition, color, speed, keys, boardSize }) {
-    this.radius = 20;
+  constructor({ startingPosition, color, speed, keys, radius }) {
+    this.radius = radius;
     this.sprite = kontra.sprite({
       x: startingPosition.x,
       y: startingPosition.y,
@@ -16,52 +16,51 @@ export default class Player {
     });
     this.speed = speed;
     this.keys = keys;
-    this.boardSize = boardSize;
   }
 
-  handleControl(playerPositions) {
+  handleControl(playerPositions, boardSize) {
     if (
       kontra.keys.pressed(this.keys.up) &&
-      this.checkIfCanMove("up", playerPositions)
+      this.checkIfCanMove("up", playerPositions, boardSize)
     ) {
       this.moveUp(this.sprite);
     }
     if (
       kontra.keys.pressed(this.keys.down) &&
-      this.checkIfCanMove("down", playerPositions)
+      this.checkIfCanMove("down", playerPositions, boardSize)
     ) {
       this.moveDown(this.sprite);
     }
     if (
       kontra.keys.pressed(this.keys.right) &&
-      this.checkIfCanMove("right", playerPositions)
+      this.checkIfCanMove("right", playerPositions, boardSize)
     ) {
       this.moveRight(this.sprite);
     }
     if (
       kontra.keys.pressed(this.keys.left) &&
-      this.checkIfCanMove("left", playerPositions)
+      this.checkIfCanMove("left", playerPositions, boardSize)
     ) {
       this.moveLeft(this.sprite);
     }
   }
 
-  checkIfCanMove(direction, playerPositions) {
+  checkIfCanMove(direction, playerPositions, boardSize) {
     return !(
       this.checkPlayersCollision(direction, playerPositions) ||
-      this.checkBoardCollision(direction)
+      this.checkBoardCollision(direction, boardSize)
     );
   }
   // TODO: move some collision handler?
-  checkBoardCollision(direction) {
+  checkBoardCollision(direction, boardSize) {
     const position = this.getPosition();
     switch (direction) {
       case "up":
         return position.y <= this.radius;
       case "down":
-        return position.y >= this.boardSize.height - this.radius;
+        return position.y >= boardSize.height - this.radius;
       case "right":
-        return position.x >= this.boardSize.width - this.radius;
+        return position.x >= boardSize.width - this.radius;
       case "left":
         return position.x <= this.radius;
     }

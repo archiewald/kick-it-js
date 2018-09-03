@@ -1,32 +1,41 @@
+import "../lib/kontra"; // initialize kontra as a global object </3
+
 import Player from "./Player";
 import Board from "./Board";
+import Ball from "./Ball";
 
-const boardId = "game";
-const board = new Board({ width: 800, height: 400 });
+const BOARD_SIZE = {
+  width: 800,
+  height: 400
+};
+const BOARD_ID = "game";
+const PLAYERS_RADIUS = 20;
+const BALL_RADIUS = 10;
 
-board.init(boardId);
-kontra.init(boardId); // kontra imported as a global object
+const board = new Board(BOARD_SIZE);
+board.init(BOARD_ID);
+kontra.init(BOARD_ID);
 
 const player1 = new Player({
   startingPosition: {
-    x: 40,
-    y: 40
+    x: 100,
+    y: BOARD_SIZE.height / 2 - BALL_RADIUS
   },
   color: "blue",
-  speed: 2,
+  speed: 4,
   keys: {
     up: "w",
     down: "s",
     left: "a",
     right: "d"
   },
-  boardSize: board.getSize()
+  radius: PLAYERS_RADIUS
 });
 
 const player2 = new Player({
   startingPosition: {
-    x: 760,
-    y: 40
+    x: BOARD_SIZE.width - 100,
+    y: BOARD_SIZE.height / 2 - BALL_RADIUS
   },
   color: "red",
   speed: 2,
@@ -36,40 +45,35 @@ const player2 = new Player({
     left: "left",
     right: "right"
   },
-  boardSize: board.getSize()
+  radius: PLAYERS_RADIUS
 });
 
-const player3 = new Player({
+const ball = new Ball({
   startingPosition: {
-    x: 100,
-    y: 100
+    x: BOARD_SIZE.width / 2 - BALL_RADIUS,
+    y: BOARD_SIZE.height / 2 - BALL_RADIUS
   },
-  color: "yellow",
-  speed: 2,
-  keys: {
-    up: "y",
-    down: "h",
-    left: "g",
-    right: "j"
-  },
-  boardSize: board.getSize()
+  radius: BALL_RADIUS
 });
 
 const loop = kontra.gameLoop({
   update: () => {
-    player1.handleControl([player2.getPosition(), player3.getPosition()]);
-    player2.handleControl([player1.getPosition(), player3.getPosition()]);
-    player3.handleControl([player1.getPosition(), player2.getPosition()]);
+    player1.handleControl([player2.getPosition()], BOARD_SIZE);
+    player2.handleControl([player1.getPosition()], BOARD_SIZE);
+    ball.handlePhysics(
+      [player1.getPosition(), player2.getPosition()],
+      BOARD_SIZE
+    );
 
     player1.update();
     player2.update();
-    player3.update();
+    ball.update();
   },
 
   render: () => {
     player1.render();
     player2.render();
-    player3.render();
+    ball.render();
   }
 });
 

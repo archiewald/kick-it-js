@@ -9,11 +9,4 @@ export default class Board {
     this.element.height = this.height;
     this.element.width = this.width;
   }
-
-  getSize() {
-    return {
-      width: this.width,
-      height: this.height
-    };
-  }
 }

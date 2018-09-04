@@ -61,6 +61,7 @@ const loop = kontra.gameLoop({
     player1.handleControl([player2.getPosition()], BOARD_SIZE);
     player2.handleControl([player1.getPosition()], BOARD_SIZE);
     ball.handlePhysics([player1, player2]);
+    ball.handleBoardCollision(BOARD_SIZE);
     ball.handleMotion();
 
     player1.update();

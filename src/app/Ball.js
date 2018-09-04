@@ -61,6 +61,23 @@ export default class Ball {
     });
   }
 
+  handleBoardCollision(boardSize) {
+    const position = this.getPosition();
+    if (
+      position.x <= 0 + this.radius ||
+      position.x >= boardSize.width - this.radius
+    ) {
+      this.velocityVector.x = -this.velocityVector.x;
+    }
+
+    if (
+      position.y <= 0 + this.radius ||
+      position.y >= boardSize.height - this.radius
+    ) {
+      this.velocityVector.y = -this.velocityVector.y;
+    }
+  }
+
   update() {
     this.sprite.update();
   }

@@ -1,3 +1,6 @@
+import { checkIfCirclesIntersect } from "../lib/utils";
+import Vector from "./Vector";
+
 export default class Player {
   constructor({ startingPosition, color, speed, keys, radius }) {
     this.radius = radius;
@@ -16,32 +19,49 @@ export default class Player {
     });
     this.speed = speed;
     this.keys = keys;
+    this.velocityVector = new Vector(0, 0);
+  }
+
+  getPosition() {
+    return {
+      x: this.sprite.x,
+      y: this.sprite.y
+    };
+  }
+
+  getVelocityVector() {
+    return this.velocityVector.getXY();
   }
 
   handleControl(playerPositions, boardSize) {
+    this.velocityVector.setXY(0, 0);
     if (
       kontra.keys.pressed(this.keys.up) &&
       this.checkIfCanMove("up", playerPositions, boardSize)
     ) {
       this.moveUp(this.sprite);
+      this.velocityVector.y = -this.speed;
     }
     if (
       kontra.keys.pressed(this.keys.down) &&
       this.checkIfCanMove("down", playerPositions, boardSize)
     ) {
       this.moveDown(this.sprite);
+      this.velocityVector.y = this.speed;
     }
     if (
       kontra.keys.pressed(this.keys.right) &&
       this.checkIfCanMove("right", playerPositions, boardSize)
     ) {
       this.moveRight(this.sprite);
+      this.velocityVector.x = this.speed;
     }
     if (
       kontra.keys.pressed(this.keys.left) &&
       this.checkIfCanMove("left", playerPositions, boardSize)
     ) {
       this.moveLeft(this.sprite);
+      this.velocityVector.x = -this.speed;
     }
   }
 
@@ -51,7 +71,8 @@ export default class Player {
       this.checkBoardCollision(direction, boardSize)
     );
   }
-  // TODO: move some collision handler?
+  // TODO move to some collision handler?
+  // TODO move switch to checkIfCanMove()
   checkBoardCollision(direction, boardSize) {
     const position = this.getPosition();
     switch (direction) {
@@ -85,16 +106,13 @@ export default class Player {
     }
 
     return playerPositions.some(position =>
-      this.checkIfCirclesIntersect(position, 20, nextPosition, 20)
+      checkIfCirclesIntersect({
+        position1: position,
+        radius1: this.radius,
+        position2: nextPosition,
+        radius2: this.radius
+      })
     );
-  }
-
-  checkIfCirclesIntersect(position1, radius1, position2, radius2) {
-    const distance = Math.sqrt(
-      Math.pow(position1.x - position2.x, 2) +
-        Math.pow(position1.y - position2.y, 2)
-    );
-    return distance < radius1 + radius2;
   }
 
   moveUp(position) {
@@ -120,12 +138,5 @@ export default class Player {
 
   render() {
     this.sprite.render();
-  }
-
-  getPosition() {
-    return {
-      x: this.sprite.x,
-      y: this.sprite.y
-    };
   }
 }

@@ -1,8 +1,10 @@
 // TODO share some functionalisties with Player
-import { checkIfCirclesIntersect } from "../lib/utils";
+import { checkIfCirclesIntersect, setNewVelocities } from "../lib/utils";
+import Vector from "./Vector";
 
 export default class Ball {
   constructor({ startingPosition, speed, radius }) {
+    this.velocityVector = new Vector(0, 0);
     this.radius = radius;
     this.speed = speed;
     this.sprite = kontra.sprite({
@@ -20,6 +22,10 @@ export default class Ball {
     });
   }
 
+  getVelocityVector() {
+    return this.velocityVector;
+  }
+
   getPosition() {
     return {
       x: this.sprite.x,
@@ -35,34 +41,24 @@ export default class Ball {
   //   }[]
   //
 
-  handlePhysics(playerDatas) {
-    playerDatas.forEach(playerData => {
+  handleMotion() {
+    this.sprite.x = this.sprite.x + this.velocityVector.x;
+    this.sprite.y = this.sprite.y + this.velocityVector.y;
+  }
+
+  handlePhysics(players) {
+    players.forEach(player => {
       if (
         checkIfCirclesIntersect({
-          position1: playerData.position,
-          radius1: playerData.radius,
+          position1: player.getPosition(),
+          radius1: player.radius,
           position2: this.getPosition(),
           radius2: this.radius
         })
       ) {
-        console.log(
-          this._calculateVelocityVector({
-            playerVelocityVector: playerData.velocityVector,
-            ballVelocityVector: { x: 0, y: 0 },
-            playerRadius: playerData.radius,
-            ballRadius: this.radius
-          })
-        );
+        this.velocityVector = setNewVelocities(player, this).v2;
       }
     });
-  }
-
-  _calculateVelocityVector({
-    playerVelocityVector,
-    playerRadius,
-    ballVelocityVector,
-    ballRadius
-  }) {
   }
 
   update() {

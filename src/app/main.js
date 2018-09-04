@@ -60,18 +60,8 @@ const loop = kontra.gameLoop({
   update: () => {
     player1.handleControl([player2.getPosition()], BOARD_SIZE);
     player2.handleControl([player1.getPosition()], BOARD_SIZE);
-    ball.handlePhysics([
-      {
-        radius: player1.radius,
-        position: player1.getPosition(),
-        velocityVector: player1.getVelocityVector()
-      },
-      {
-        radius: player2.radius,
-        position: player2.getPosition(),
-        velocityVector: player2.getVelocityVector()
-      }
-    ]);
+    ball.handlePhysics([player1, player2]);
+    ball.handleMotion();
 
     player1.update();
     player2.update();

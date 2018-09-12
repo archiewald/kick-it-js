@@ -4,6 +4,7 @@ import Vector from "./Vector";
 export default class Player {
   constructor({ startingPosition, color, speed, keys, radius }) {
     this.radius = radius;
+    this.startingPosition = startingPosition;
     this.sprite = kontra.sprite({
       x: startingPosition.x,
       y: startingPosition.y,
@@ -20,6 +21,7 @@ export default class Player {
     this.speed = speed;
     this.keys = keys;
     this.velocityVector = new Vector(0, 0);
+    this.points = 0;
   }
 
   getPosition() {
@@ -27,6 +29,11 @@ export default class Player {
       x: this.sprite.x,
       y: this.sprite.y
     };
+  }
+
+  setPosition(position) {
+    this.sprite.x = position.x;
+    this.sprite.y = position.y;
   }
 
   getVelocityVector() {

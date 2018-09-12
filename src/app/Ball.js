@@ -7,6 +7,7 @@ export default class Ball {
     this.velocityVector = new Vector(0, 0);
     this.radius = radius;
     this.speed = speed;
+    this.startingPosition = startingPosition;
     this.sprite = kontra.sprite({
       x: startingPosition.x,
       y: startingPosition.y,
@@ -26,11 +27,21 @@ export default class Ball {
     return this.velocityVector;
   }
 
+  stop() {
+    this.velocityVector.x = 0;
+    this.velocityVector.y = 0;
+  }
+
   getPosition() {
     return {
       x: this.sprite.x,
       y: this.sprite.y
     };
+  }
+
+  setPosition(position) {
+    this.sprite.x = position.x;
+    this.sprite.y = position.y;
   }
 
   // playerDatas =
@@ -46,7 +57,7 @@ export default class Ball {
     this.sprite.y = this.sprite.y + this.velocityVector.y;
   }
 
-  handlePhysics(players) {
+  handlePlayersCollision(players) {
     players.forEach(player => {
       if (
         checkIfCirclesIntersect({

@@ -18,6 +18,8 @@ const GOAL_WIDTH = 3;
 
 const board = new Board(BOARD_SIZE);
 board.init(BOARD_ID);
+const player1points = document.getElementById("player1-points");
+const player2points = document.getElementById("player2-points");
 kontra.init(BOARD_ID);
 
 const player1 = new Player({
@@ -94,15 +96,25 @@ const loop = kontra.gameLoop({
     if (player1scores(ballPosition)) {
       player1.points += 1;
       restartPositions([player1, player2, ball]);
-      console.log(player1.points, player2.points);
+      player1points.textContent = player1.points;
+      player2points.textContent = player2.points;
       ball.stop();
+      if (player1.points >= POINTS_TO_WIN) {
+        player1.points = 0;
+        player2.points = 0;
+      }
     }
 
     if (player2scores(ballPosition)) {
       player2.points += 1;
       restartPositions([player1, player2, ball]);
-      console.log(player1.points, player2.points);
+      player1points.textContent = player1.points;
+      player2points.textContent = player2.points;
       ball.stop();
+      if (player2.points >= POINTS_TO_WIN) {
+        player1points.textContent = 0;
+        player2points.textContent = 0;
+      }
     }
 
     sprites.forEach(sprite => sprite.update());

@@ -96,28 +96,20 @@ const loop = kontra.gameLoop({
     if (player1scores(ballPosition)) {
       player1.points += 1;
       restartPositions([player1, player2, ball]);
-      player1points.textContent = player1.points;
-      player2points.textContent = player2.points;
+      showPoints();
       ball.stop();
       if (player1.points >= POINTS_TO_WIN) {
-        player1.points = 0;
-        player2.points = 0;
-        player1points.textContent = player1.points;
-        player2points.textContent = player2.points;
+        clearPoints();
       }
     }
 
     if (player2scores(ballPosition)) {
       player2.points += 1;
       restartPositions([player1, player2, ball]);
-      player1points.textContent = player1.points;
-      player2points.textContent = player2.points;
+      showPoints();
       ball.stop();
       if (player2.points >= POINTS_TO_WIN) {
-        player1.points = 0;
-        player2.points = 0;
-        player1points.textContent = player1.points;
-        player2points.textContent = player2.points;
+        clearPoints();
       }
     }
 
@@ -130,6 +122,18 @@ const loop = kontra.gameLoop({
 });
 
 loop.start();
+
+function showPoints() {
+  player1points.textContent = player1.points;
+  player2points.textContent = player2.points;
+}
+
+function clearPoints() {
+  player1.points = 0;
+  player2.points = 0;
+  player1points.textContent = player1.points;
+  player2points.textContent = player2.points;
+}
 
 function restartPositions(sprites) {
   sprites.forEach(sprite => sprite.setPosition(sprite.startingPosition));

@@ -102,6 +102,8 @@ const loop = kontra.gameLoop({
       if (player1.points >= POINTS_TO_WIN) {
         player1.points = 0;
         player2.points = 0;
+        player1points.textContent = player1.points;
+        player2points.textContent = player2.points;
       }
     }
 
@@ -112,8 +114,10 @@ const loop = kontra.gameLoop({
       player2points.textContent = player2.points;
       ball.stop();
       if (player2.points >= POINTS_TO_WIN) {
-        player1points.textContent = 0;
-        player2points.textContent = 0;
+        player1.points = 0;
+        player2.points = 0;
+        player1points.textContent = player1.points;
+        player2points.textContent = player2.points;
       }
     }
 

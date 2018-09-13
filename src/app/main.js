@@ -1,4 +1,4 @@
-import "../lib/kontra"; // initialize kontra as a global object </3
+import "../lib/kontra"; // initialize kontra as a global object
 
 import Player from "./Player";
 import Board from "./Board";

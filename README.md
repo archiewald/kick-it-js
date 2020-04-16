@@ -1,4 +1,4 @@
-# KickIt!
+# KickIt! 🚀🚀
 
 JS game made for [js13kgames](http://js13kgames.com/) competition.
 
